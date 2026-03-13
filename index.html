@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GFG DTC - Secret Event 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2E7D32;
+            --accent-green: #43A047;
+            --dark-bg: #0A0A0A;
+            --card-bg: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AAAAAA;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0F0F0F 50%, #1A1A1A 100%);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before,
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(46, 125, 50, 0.1) 0%, transparent 70%);
+            filter: blur(80px);
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .hero::before {
+            top: 10%;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .hero::after {
+            bottom: 10%;
+            right: -200px;
+            animation-delay: 7.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--primary-green);
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(46, 125, 50, 0.5);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            animation: slideDown 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 span {
+            color: var(--primary-green);
+            text-shadow: 0 0 10px rgba(46, 125, 50, 0.8);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Countdown */
+        .countdown-section {
+            margin-bottom: 40px;
+            animation: scaleIn 0.8s ease-out 0.6s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .countdown-label {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .countdown-box {
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.2) 0%, rgba(46, 125, 50, 0.05) 100%);
+            border: 2px solid rgba(46, 125, 50, 0.5);
+            border-radius: 8px;
+            padding: 15px 20px;
+            min-width: 100px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .countdown-box:hover {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 20px rgba(46, 125, 50, 0.3);
+        }
+
+        .countdown-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-green);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .countdown-label-item {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .countdown-note {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            animation: fadeIn 0.8s ease-out 0.8s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .btn {
+            padding: 15px 35px;
+            font-size: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: black;
+            box-shadow: 0 0 30px rgba(46, 125, 50, 0.5);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-green);
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(46, 125, 50, 0.8);
+        }
+
+        .btn-secondary {
+            background-color: rgba(46, 125, 50, 0.2);
+            color: var(--accent-green);
+            border: 2px solid rgba(46, 125, 50, 0.5);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(46, 125, 50, 0.3);
+            border-color: var(--primary-green);
+        }
+
+        /* Clues Section */
+        .clues-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            display: none;
+        }
+
+        .clues-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .clues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .clue-card {
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.2) 0%, rgba(46, 125, 50, 0.05) 100%);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .clue-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(46, 125, 50, 0.2);
+        }
+
+        .clue-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .clue-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* RSVP Section */
+        .rsvp-section {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .form-container {
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.1) 0%, rgba(46, 125, 50, 0.05) 100%);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+            border-radius: 12px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: var(--accent-green);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 10px rgba(46, 125, 50, 0.3);
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-top: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .form-submit {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            font-size: 1rem;
+        }
+
+        .success-message {
+            display: none;
+            color: var(--accent-green);
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Share Section */
+        .share-section {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .share-container {
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.1) 0%, rgba(46, 125, 50, 0.05) 100%);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+            border-radius: 12px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .share-message {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(46, 125, 50, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+            text-align: center;
+            font-style: italic;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .share-btn {
+            padding: 12px 25px;
+            background-color: rgba(46, 125, 50, 0.2);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+            border-radius: 8px;
+            color: var(--accent-green);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .share-btn:hover {
+            background-color: rgba(46, 125, 50, 0.4);
+            border-color: var(--primary-green);
+        }
+
+        .social-proof {
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .social-proof strong {
+            color: var(--accent-green);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(46, 125, 50, 0.2);
+            margin-top: 60px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+
+        .tagline {
+            font-size: 0.85rem;
+            color: rgba(46, 125, 50, 0.7);
+            margin-top: 20px;
+        }
+
+        /* Reveal Section */
+        .reveal-section {
+            display: none;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .reveal-section.active {
+            display: block;
+        }
+
+        .reveal-header {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .reveal-header h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .reveal-header p {
+            font-size: 1.2rem;
+            color: var(--accent-green);
+            margin-bottom: 30px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto 60px;
+        }
+
+        .detail-card {
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.2) 0%, rgba(46, 125, 50, 0.05) 100%);
+            border: 1px solid rgba(46, 125, 50, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .detail-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-5px);
+        }
+
+        .detail-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .detail-card h3 {
+            color: var(--accent-green);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .detail-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .countdown {
+                gap: 10px;
+            }
+
+            .countdown-box {
+                min-width: 80px;
+                padding: 12px 15px;
+            }
+
+            .countdown-value {
+                font-size: 1.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+        }
+
+        .pulse {
+            animation: pulse-animation 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-animation {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="content">
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <div class="logo">{'< GFG DTC />'}</div>
+                <h1>Something <span>BIG</span> is Coming</h1>
+                <p>March 16, 2026 — You won't want to miss this</p>
+
+                <div class="countdown-section">
+                    <div class="countdown-label">Until the secret drops</div>
+                    <div class="countdown" id="countdown">
+                        <div class="countdown-item">
+                            <div class="countdown-box">
+                                <div class="countdown-value" id="days">00</div>
+                            </div>
+                            <div class="countdown-label-item">Days</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-box">
+                                <div class="countdown-value" id="hours">00</div>
+                            </div>
+                            <div class="countdown-label-item">Hours</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-box">
+                                <div class="countdown-value" id="minutes">00</div>
+                            </div>
+                            <div class="countdown-label-item">Minutes</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-box">
+                                <div class="countdown-value" id="seconds">00</div>
+                            </div>
+                            <div class="countdown-label-item">Seconds</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" onclick="document.getElementById('rsvp').scrollIntoView({behavior: 'smooth'})">I WANT IN</button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('share').scrollIntoView({behavior: 'smooth'})">DARE YOUR FRIENDS</button>
+                </div>
+
+                <p style="color: var(--text-secondary); font-style: italic; margin-top: 30px;">
+                    "The best events leave you no choice but to show up."
+                </p>
+            </div>
+        </section>
+
+        <!-- Clues Section -->
+        <section id="cluesSection" class="clues-section">
+            <h2 class="section-title">Mystery Clues</h2>
+            <div class="clues-grid" id="cluesGrid"></div>
+        </section>
+
+        <!-- RSVP Section -->
+        <section class="rsvp-section" id="rsvp">
+            <h2 class="section-title">Reserve Your Spot</h2>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px;">
+                Join the exclusive list of people who'll witness something unforgettable
+            </p>
+            <div class="form-container">
+                <form id="rsvpForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="you@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91">
+     
